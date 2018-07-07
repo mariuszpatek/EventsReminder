@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Logowanie";
+}
+
+@section styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/lib/bootstrap/bootstrap-social.css" rel="stylesheet" />
+}
+
+    <div class="container col-lg-6 col-sm-10 card">
+        <h2 class="card-header bg-light">Logowanie</h2>
+        <form asp-action="Login" asp-controller="Account" method="POST" class="card-body js-form-prevent-multiple-submitions">
+            <div class="form-group">
+                <div asp-validation-summary="All"></div>
+                <label asp-for="Email">Email:</label>
+                <input class="form-control" asp-for="Email" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Password:</label>
+                <input class="form-control" asp-for="Password" />
+            </div>
+            <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+            <a class="btn btn-block btn-social btn-google w-50 text-center m-auto" asp-action="GoogleLogin" asp-controller="Account" asp-route-returnUrl="@ViewData["ReturnUrl"]"> <span class="fa fa-google"></span> Zaloguj się przez Google</a>
+            <div>
+                <input class="btn btn-outline-info" type="submit" value="Wyślij" />
+            </div>
+        </form>
+    </div>
+@section scripts{
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/site/js/form.js"></script>
+}

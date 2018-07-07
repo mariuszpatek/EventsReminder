@@ -1,0 +1,73 @@
+﻿@using EventsReminder.Common.Enums
+@model NotificationViewModel
+
+
+<div>
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <small class="form-text text-muted">Wybierz nazwę dla powiadomienia, aby w przyszłości móc je łatwo odnaleść.</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <small class="form-text text-muted">Wybierz treść powiadomienia, która będzie do Ciebie wysłana.</small>
+    </div>
+    <fieldset class="form-group js-notification-type">
+        <legend>
+            <label asp-for="NotificationType"></label>
+        </legend>
+        <div radio-notificationType checked-value="@Model?.NotificationType"></div>
+    </fieldset>
+    <fieldset class="form-group d-none js-daysofweek">
+        <legend>
+            <label asp-for="DaysOfWeek"></label>
+        </legend>
+        @for (var i = 0; i < Model?.DaysOfWeek?.Count; i++)
+        {
+            <div>
+                <input type="hidden" asp-for="@Model.DaysOfWeek[i].Value" />
+                <input class="pointer" type="checkbox" asp-for="@Model.DaysOfWeek[i].Selected" />
+                <label class="form-check-label pointer" asp-for="@Model.DaysOfWeek[i].Selected">@Model.DaysOfWeek[i].Text</label>
+            </div>
+        }
+        <small class="form-text text-muted">Wybierz dzień/dni tygodnia w których ma miejsce wydarzenie.</small>
+    </fieldset>
+        <div class="form-group d-none js-eventdate">
+        @Html.LabelFor(n => n.EventDate)
+        <div class='input-group date col-md-6 pl-0'>
+            <input asp-format="{0:yyyy-MM-dd}" class="js-datepicker" asp-for="@Model.EventDate" value="@Model?.EventDate?.ToString("yyyy-MM-dd")" />
+            <span class="input-group-addon input-group-text">
+                <img src="~/icons/glyphicons-clock.png" />
+            </span>
+        </div>
+        <small class="form-text text-muted">Wybierz datę wydarzenia, abyśmy wiedzieli kiedy Cię poinformować.</small>
+    </div>
+    <fieldset class="form-group">
+        <legend>
+            <label asp-for="AheadOfTime"></label>
+        </legend>
+        @for (var i = 0; i < Model?.AheadOfTime?.Count; i++)
+        {
+            <div>
+                <input type="hidden" asp-for="@Model.AheadOfTime[i].Value" />
+                <input class="pointer" type="checkbox" asp-for="@Model.AheadOfTime[i].Selected" />
+                <label  class="form-check-label pointer" asp-for="@Model.AheadOfTime[i].Selected">@Model.AheadOfTime[i].Text</label>
+            </div>
+        }
+        <small class="form-text text-muted">Zdecyduj kiedy ma zostać wysłane przypomnienie o wydarzeniu.</small>
+    </fieldset>
+    <div class="form-group">
+        <label asp-for="MessageType"></label>
+        <select class="form-control col-md-3 pl-0" asp-for="MessageType" asp-items="@Html.GetEnumSelectList<MessageType>()"></select>
+        <span class="text-danger" asp-validation-for="MessageType" ></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SendingHour"></label>
+        <select class="form-control col-md-3 pl-0" hours-picker selected-value="@Model.SendingHour" asp-for="SendingHour"></select>
+    </div>
+    <input type="hidden" asp-for="NotificationId" value="@Model.NotificationId" />
+    <button type="submit" class="btn btn-primary">Zapisz powiadomienie</button>
+</div>
+

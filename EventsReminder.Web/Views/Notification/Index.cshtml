@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DisplayNotificationViewModel>
+
+@{
+    ViewData["Title"] = "Moje powiadomienia";
+}
+
+@section styles{
+    <link href="~/lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Moje aktywne powiadomienia</h2>
+    </div>
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="Notification" class="btn btn-success float-right">Dodaj nowe powiadomienie</a>
+    </div>
+</div>
+@Html.DropDownList("SelectedEmployee", new SelectList((System.Collections.IEnumerable)ViewData["Categories"]), "Wszystkie kategorie", new { @class = "form-control col-md-2 float-right text-capitalize js-category-search" })
+
+<div class="row mt-5">
+    <table class="table table-responsive-md table-striped js-notification-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Treść</th>
+                <th scope="col">Typ powiadomienia</th>
+                <th scope="col">Data wydarzenia</th>
+                <th scope="col">Dni wysyłania</th>
+                <th scope="col">Kiedy wysyłane</th>
+                <th scope="col">Sposób wysłania</th>
+                <th scope="col">Godzina wysłania</th>
+                <th scope="col">Akcja</th>
+                <th scope="col" class="d-none">Kategorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 1; }
+            @foreach (var notification in Model)
+            {
+                <tr>
+                    <th>@i</th>
+                    <th>@notification.Name</th>
+                    <th>@notification.Description</th>
+                    <th>@notification.NotificationTypeName</th>
+                    <th>@notification.EventDate?.ToString("dd.MM.yyyy")</th>
+                    <th>
+                        <display-as-comma-separated-list input-list="@notification.DaysOfWeek"></display-as-comma-separated-list>
+                    </th>
+                    <th>
+                        <display-as-comma-separated-list input-list="@notification.AheadOfTimeValues"></display-as-comma-separated-list>
+                    </th>
+                    <th>@notification.MessageTypeName</th>
+                    <th>@notification.SendingHour.ToString():00</th>
+                    <th>
+                        <a asp-action="Edit" asp-controller="Notification" asp-route-id="@notification.NotificationId">Edytuj</a> <br />
+                        <a href="#" js-notification-id="@notification.NotificationId" class="text-danger js-delete-notification">Usuń</a>
+                    </th>
+                    <th class="d-none">
+                        <display-as-comma-separated-list input-list="@notification.Categories"></display-as-comma-separated-list>
+                    </th>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/dataTableTranslation.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script>
+        @Html.Partial("_Alerts");
+    </script>
+    <script>
+        $(document).ready(function () {
+            var table = DataTableWithTranslation('.js-notification-table');
+
+            $('.js-notification-table').on("click", ".js-delete-notification", function () {
+                if (confirm("Czy jesteś pewien, że chcesz usunąć powadomienie?")) {
+                    toastr.options.positionClass = 'toast-top-center mt-5';
+                    var button = $(this);
+                    $.ajax({
+                        url: '/api/notification/' + button.attr("js-notification-id"),
+                        type: 'DELETE',
+                        success: function () {
+                            var linha = button.parents("tr");
+                            linha.fadeOut(400, function () {
+                                table.row(linha).remove().draw()
+                            });
+                            toastr.success("Pomyślnie usunięto powiadomienie");
+                        },
+                        error: function (request, error) {
+                            toastr.error("Podczas usuwania powiadomienia wystąpił problem");
+                        }
+                    });
+                }
+            });
+
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var catValue = $('.js-category-search').val();
+                    var columnValues = data[10] || '';    
+                    
+                    return columnValues.indexOf(catValue) > -1
+                }
+            );
+
+            $(".js-category-search").change(function () {            
+                table.draw();
+            });
+        });
+    </script>
+}

@@ -1,0 +1,31 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<div class="container col-lg-6 col-sm-10 card">
+    <h2 class="card-header bg-light">Rejestracja</h2>
+    <form asp-action="Register" asp-controller="Account" method="POST" class="card-body js-form-prevent-multiple-submitions">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input class="form-control" asp-for="Email" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <input class="form-control" asp-for="ConfirmPassword" />
+        </div>
+        <div>
+            <input class="btn btn-outline-info" type="submit" value="Zapisz" />
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/site/js/form.js"></script>
+}
+

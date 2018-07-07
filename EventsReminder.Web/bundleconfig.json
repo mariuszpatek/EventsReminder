@@ -1,0 +1,88 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/bootstrap.min.css",
+    "inputFiles": [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/bootstrap.min.js",
+    "inputFiles": [
+      "node_modules/popper.js/dist/umd/popper.min.js",
+      "node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery/jquery.min.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-validation/jquery.validate.min.js",
+    "inputFiles": [
+      "node_modules/jquery-validation/dist/jquery.validate.min.js",
+      "node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datatables/dataTables.bootstrap4.min.css",
+    "inputFiles": [
+      "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css"
+    ],
+    "minify": { "enabled": true }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datepicker/bootstrap-datepicker.pl.min.js",
+    "inputFiles": [
+      "node_modules/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pl.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datepicker/bootstrap-datepicker.min.js",
+    "inputFiles": [
+      "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datepicker/bootstrap-datepicker.min.css",
+    "inputFiles": [
+      "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/toastr/toastr.min.js",
+    "inputFiles": [
+      "node_modules/toastr/build/toastr.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/toastr/toastr.min.css",
+    "inputFiles": [
+      "node_modules/toastr/build/toastr.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datepicker/flatpickr.min.css",
+    "inputFiles": [
+      "node_modules/flatpickr/dist/flatpickr.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/datepicker/flatpickr.min.js",
+    "inputFiles": [
+      "node_modules/flatpickr/dist/flatpickr.min.js"
+    ],
+    "minify": { "enabled": false }
+  }
+]

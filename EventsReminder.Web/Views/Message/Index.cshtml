@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MessageViewModel>
+@{
+    ViewData["Title"] = "Wysłane wiadomości";
+}
+
+@section styles{
+    <link href="~/lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+
+<h2>Wysłane wiadomości</h2>
+
+<div class="row mt-5">
+    <table class="table table-responsive-md table-striped js-notification-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Sposób wysłania</th>
+                <th scope="col">Typ Powiadomienia</th>
+                <th scope="col">Gdzie wysłane</th>
+                <th scope="col">Kiedy wysyłane</th>
+            </tr>
+        </thead>
+        <tbody>
+                @{ int i = 1; }
+                @foreach (var message in Model)
+                {
+                <tr>
+                    <th>@i</th>
+                    <th>@message.Name</th>
+                    <th>@message.MessageType</th>
+                    <th>@message.NotificationType</th>
+                    <th>@message.MessageTarget</th>
+                    <th>@message.DateOfDispatch</th>
+
+                    @{i++;}
+                </tr>
+            }
+            </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/dataTableTranslation.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = DataTableWithTranslation('.js-notification-table');
+        });
+    </script>
+}

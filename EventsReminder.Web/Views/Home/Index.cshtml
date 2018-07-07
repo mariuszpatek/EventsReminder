@@ -1,0 +1,30 @@
+﻿@model GlobalEvent
+
+@{
+    ViewData["Title"] = "Strona główna";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+<div class="container">
+    <div>
+        <img height="45" src="~/images/calendar.png" />
+        <h2 class="ml-1 d-inline">Dzisiejsze Wydarzenia</h2>
+    </div>
+    <p class="lead">
+        <ul style="font-size: 1.25em;">
+            @Html.Raw(Model?.Content)
+        </ul>
+    </p>
+    <a asp-controller="Notification" asp-action="Index" role="button" class="btn btn-block btn-primary">Przejdź do powiadomień</a>
+</div>
+}
+else
+{
+    <div class="jumbotron col-8 m-auto">
+        <h1>Events Reminder</h1>
+        <p class="lead">Witaj na stronie, dzięki której będziesz pamiętał o zbliżających się ważnych dla Ciebie wydarzeniach.</p>
+        <p><a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-lg">Zarejestruj się &raquo;</a></p>
+    </div>
+}
+

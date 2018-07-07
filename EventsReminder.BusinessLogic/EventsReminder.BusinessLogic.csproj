@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.0" />
+    <PackageReference Include="Polly" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventsReminder.Common\EventsReminder.Common.csproj" />
+    <ProjectReference Include="..\EventsReminder.DataAccess\EventsReminder.DataAccess.csproj" />
+    <ProjectReference Include="..\EventsReminder.Model\EventsReminder.Model.csproj" />
+  </ItemGroup>
+
+</Project>

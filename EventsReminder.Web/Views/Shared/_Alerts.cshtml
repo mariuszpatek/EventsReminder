@@ -1,0 +1,13 @@
+﻿@if (TempData.ContainsKey("ToastMessage"))
+{
+    @:toastr.options.positionClass = 'toast-top-center mt-5';
+    ToastMessage toastr = TempData.Get<ToastMessage>("ToastMessage");
+    if (toastr.Success)
+    {
+        @:toastr.success("@toastr.Message");
+    }
+    else
+    {
+        @:toastr.error("@toastr.Message");
+    }
+}

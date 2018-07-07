@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
+    <PackageReference Include="Moq" Version="4.8.3" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventsReminder.BusinessLogic\EventsReminder.BusinessLogic.csproj" />
+    <ProjectReference Include="..\EventsReminder.Common\EventsReminder.Common.csproj" />
+    <ProjectReference Include="..\EventsReminder.DataAccess\EventsReminder.DataAccess.csproj" />
+    <ProjectReference Include="..\EventsReminder.Model\EventsReminder.Model.csproj" />
+    <ProjectReference Include="..\EventsReminder.Web\EventsReminder.Web.csproj" />
+  </ItemGroup>
+
+</Project>

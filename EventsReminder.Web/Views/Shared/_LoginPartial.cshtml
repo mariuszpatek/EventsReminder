@@ -1,0 +1,26 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+<div class="navbar-nav">
+    <a class="nav-item nav-link" href="@Url.Action("Index", "Notification")">Zarządzaj powiadomieniami</a>
+    <a class="nav-item nav-link" href="@Url.Action("Index", "Calendar")">Kalendarz</a>
+    <a class="nav-item nav-link" href="@Url.Action("Index", "Message")">Wysłane wiadomości</a>
+</div>
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav-item ml-auto" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav nav-item ml-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Witaj, " + User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+
+            </li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="LogOut">Wyloguj</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav nav-item ml-auto">
+        <li class="nav-item">@Html.ActionLink("Logowanie", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link" })</li>
+        <li class="nav-item">@Html.ActionLink("Rejestracja", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+    </ul>
+}

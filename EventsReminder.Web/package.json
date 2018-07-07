@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "4.0.0",
+    "jquery": "3.3.1",
+    "popper.js": "1.12.9",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "3.2.10",
+    "toastr": "2.1.4",
+    "datatables.net-bs4": "1.10.16",
+    "moment": "2.22.2",
+    "@fengyuanchen/datepicker": "0.6.5"
+  }
+}

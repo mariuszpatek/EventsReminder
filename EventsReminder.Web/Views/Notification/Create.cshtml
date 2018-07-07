@@ -1,0 +1,30 @@
+﻿@model NotificationViewModel
+
+@{
+    ViewData["Title"] = "Utwórz powiadomienie";
+}
+@section styles{
+    <link href="~/lib/datepicker/flatpickr.min.css" rel="stylesheet" />
+}
+
+<div class="col-sm-8 col-md-8 col-lg-8 col-xl-6 m-auto card">
+    <div class="row">
+        <div class="col-12 card-header bg-light">
+            <h2>Utwórz powiadomienie</h2>
+        </div>
+    </div>
+
+    <form asp-action="Create" asp-controller="Notification" method="post" class="js-form-prevent-multiple-submitions card-body">
+        @{Html.RenderPartial("~/Views/Notification/_NotificationForm.cshtml", Model);}
+    </form>
+</div>
+
+@section scripts{
+    <script src="~/lib/moment/moment.min.js"></script>
+    <script src="~/lib/datepicker/flatpickr.min.js"></script>
+    <script src="~/lib/datepicker/pl.js"></script>
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/site/js/form.js"></script>
+    <script src="~/lib/site/js/datepicker-configuration.js"></script>
+    <script src="~/lib/site/js/form-notification.js"></script>
+}

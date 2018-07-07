@@ -1,0 +1,40 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/icons/favicon.ico" type="image/x-icon" />
+    <title>@ViewBag.Title - Events Reminder</title>
+
+    <link href="~/lib/bootstrap/bootstrap-darkly.min.css" rel="stylesheet" />
+    <link href="~/lib/site/css/site.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    @Html.Raw(JavaScriptSnippet.FullScript)
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand">Events Remainder</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+    <div class="container col-lg-10 col-sm-12 m-auto">
+        @RenderBody()
+    </div>
+    <div class="text-muted container col-10 m-auto">
+        <hr />
+        <footer>
+            <p>&copy; @SystemTime.Now.Year - Events Reminder</p>
+            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        </footer>
+    </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

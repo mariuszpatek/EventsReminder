@@ -1,0 +1,19 @@
+﻿body {
+    padding-bottom: 20px;
+}
+
+body > .container {
+    padding-top: 40px;
+}
+
+input:disabled:hover {
+    cursor: no-drop;
+}
+
+cursore-disabled {
+    cursor: no-drop;
+}
+
+.pointer{
+    cursor: pointer;
+}
