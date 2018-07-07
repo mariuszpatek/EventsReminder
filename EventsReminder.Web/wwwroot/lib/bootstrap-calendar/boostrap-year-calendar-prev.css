@@ -58,6 +58,7 @@
     .calendar .calendar-header {
         width: 100%;
         margin-bottom: 20px;
+        overflow-x: auto;
     }
 
         .calendar .calendar-header table {
