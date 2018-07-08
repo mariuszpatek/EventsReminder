@@ -80,7 +80,18 @@
                     error: function () {
                         alert('Wystąpił błąd podczas ładowania wydarzeń.');
                     }
-                });         
+                });
+
+                var currentYear = new Date().getFullYear();
+                var currentMonth = new Date().getMonth();
+                var currentDate = new Date().getDate();
+                var circleDateTime = new Date(currentYear, currentMonth, currentDate).getTime();
+
+                calendar.setCustomDayRenderer(function (element, date) {
+                    if (date.getTime() == circleDateTime) {
+                        $(element).css('border', 'solid 2px #E80C0C');
+                    }
+                });
             });
         });
     </script>
