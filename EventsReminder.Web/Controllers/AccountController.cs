@@ -1,4 +1,5 @@
-﻿using EventsReminder.Common.Enums;
+﻿using EventsReminder.BusinessLogic;
+using EventsReminder.Common.Enums;
 using EventsReminder.Model.Models;
 using EventsReminder.Model.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,13 @@ namespace EventsReminder.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly ISmsService _smsService;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ISmsService smsService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _smsService = smsService;
         }
 
         [AllowAnonymous]
@@ -159,6 +163,7 @@ namespace EventsReminder.Web.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var model = new ManageViewModel { PhoneNumber = user.PhoneNumber };
+            model.IsPhoneNumberConfirmed = user.PhoneNumberConfirmed;
             return View(model);
         }
 
@@ -171,7 +176,14 @@ namespace EventsReminder.Web.Controllers
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            user.PhoneNumber = model.PhoneNumber;
+            string phoneToken = null;
+            if (!string.IsNullOrWhiteSpace(user.PhoneNumber) && user.PhoneNumber != model.PhoneNumber)
+            {
+                user.PhoneNumberConfirmed = false;
+                user.PhoneNumber = model.PhoneNumber;
+                phoneToken = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
+                _smsService.SendSms($"Witaj, przesyłamy token do potwierdzenia numeru telefonu w aplikacji EventsReminder: {phoneToken}", user.PhoneNumber);
+            }
 
             if (!string.IsNullOrEmpty(model.Password))
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
@@ -179,8 +191,15 @@ namespace EventsReminder.Web.Controllers
             var result = await _userManager.UpdateAsync(user);
 
             if (result.Succeeded)
-            {            
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+            {
+                if (string.IsNullOrEmpty(phoneToken))
+                {
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+                else
+                {
+                    return RedirectToAction(nameof(this.ConfirmPhoneNumber), "Account");
+                }
             }
             else
             {
@@ -191,6 +210,41 @@ namespace EventsReminder.Web.Controllers
             }
         
             return View(model);
+        }
+
+        public IActionResult ConfirmPhoneNumber()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmPhoneNumber(ConfirmPhoneNumberViewModel model)   
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var result = await _userManager.ChangePhoneNumberAsync(user, user.PhoneNumber, model.Token);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
+
+        public async Task<IActionResult> GeneratePhoneToken()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);      
+            var phoneToken = await _userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
+            _smsService.SendSms($"Witaj, przesyłamy token do potwierdzenia numeru telefonu w aplikacji EventsReminder: {phoneToken}", user.PhoneNumber);
+
+            return View("ConfirmPhoneNumber");
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -214,6 +268,9 @@ namespace EventsReminder.Web.Controllers
 
                 if (string.IsNullOrEmpty(user.PhoneNumber))
                     return Json("Przed wybraniem opcji SMS proszę uzupełnić numer telefonu w swoim profilu.");
+
+                if (!user.PhoneNumberConfirmed)
+                    return Json("Przed wybraniem opcji SMS proszę potwierdzić numer telefonu za pomocą tokenu który został wysłany na podany numer.");
 
                 return Json(true);
             }

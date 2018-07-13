@@ -17,5 +17,7 @@ namespace EventsReminder.Model.ViewModels.Account
         [RegularExpression(@"^([+]?([0-9]{9,11}))$", ErrorMessage = "Wprowadzony numer telefonu jest nieprawidłowy.")]
         [Display(Name = "Numer telefonu")]
         public string PhoneNumber { get; set; }
+
+        public bool IsPhoneNumberConfirmed { get; set; }
     }
 }

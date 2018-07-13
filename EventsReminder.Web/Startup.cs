@@ -62,11 +62,13 @@ namespace EventsReminder.Web
 
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-           
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddErrorDescriber<CustomIdentityErrorDescriber>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(o => {
+                o.Tokens.ChangeEmailTokenProvider = "Phone";
+            })
+            .AddErrorDescriber<CustomIdentityErrorDescriber>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddScoped<IPopulateService, PopulateService>();
             services.AddScoped<IAheadOfTimeValuesRepository, AheadOfTimeValuesRepository>();
@@ -80,6 +82,7 @@ namespace EventsReminder.Web
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICalendarService, CalendarService>();
+            services.AddScoped<ISmsService, SmsService>();
 
             services.Configure<IdentityOptions>(options =>
             {

@@ -1,0 +1,24 @@
+﻿@model ConfirmPhoneNumberViewModel
+
+@{
+    ViewData["Title"] = "Potwierdź numer telefonu";
+}
+
+<div class="container col-lg-6 col-sm-10 card">
+    <h2 class="card-header bg-light">Potwierdź numer telefonu</h2>
+    <form asp-action="ConfirmPhoneNumber" asp-controller="Account" method="POST" class="card-body js-form-prevent-multiple-submitions">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Token"></label>
+            <input class="form-control" asp-for="Token" />
+        </div>
+        <div>
+            <input class="btn btn-outline-info" type="submit" value="Zapisz" />
+            <input class="btn btn-outline-warning" type="submit" onclick="location.href='@Url.Action("GeneratePhoneToken", "Account")'" value="Wygeneruj ponowanie" />
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/lib/site/js/form.js"></script>
+}

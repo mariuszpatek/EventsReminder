@@ -17,5 +17,6 @@ namespace EventsReminder.Model.ViewModels.Account
         public override IdentityError PasswordRequiresLower() { return new IdentityError { Code = nameof(PasswordRequiresLower), Description = "Hasło musi zawierać co najmniej jedną małą literę ('a'-'z')." }; }
         public override IdentityError PasswordRequiresUpper() { return new IdentityError { Code = nameof(PasswordRequiresUpper), Description = "Hasło musi zawierać co najmniej jedną wielką literę ('A'-'Z')." }; }
         public override IdentityError PasswordRequiresUniqueChars(int uniqueChars) { return new IdentityError { Code = nameof(PasswordRequiresUniqueChars), Description = $"Hasło musi się składać z co najmniej {uniqueChars} unikalnych znaków." }; }
+        public override IdentityError InvalidToken() { return new IdentityError { Code = nameof(InvalidToken), Description = "Wpisany token jest nieprawidłowy." }; }
     }
 }

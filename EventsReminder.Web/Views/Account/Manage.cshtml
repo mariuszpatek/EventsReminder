@@ -18,7 +18,19 @@
         </div>
         <div class="form-group">
             <label asp-for="PhoneNumber"></label>
+            @if (!Model.IsPhoneNumberConfirmed && !string.IsNullOrEmpty(Model.PhoneNumber))
+            {
+                <span class="badge badge-danger">Niezweryfikowany</span>
+            }
+            else
+	        {
+                <span class="badge badge-success">Zweryfikowany</span>
+	        }   
             <input class="form-control" asp-for="PhoneNumber" />
+            @if (!Model.IsPhoneNumberConfirmed && !string.IsNullOrEmpty(Model.PhoneNumber))
+            {
+                <span class="form-text text-muted">Token weryfikacyjny który otrzymałeś SMS'em możesz wpisać @Html.ActionLink("tutaj", "ConfirmPhoneNumber").</span>
+            }
         </div>
         <div>
             <input class="btn btn-outline-info" type="submit" value="Zapisz" />

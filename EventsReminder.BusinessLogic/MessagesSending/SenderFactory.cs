@@ -9,11 +9,13 @@ namespace EventsReminder.BusinessLogic.MessagesSending
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly ISmsService _smsService;
 
-        public SenderFactory(IConfiguration configuration, ILogger logger)
+        public SenderFactory(IConfiguration configuration, ILogger logger, ISmsService smsService)
         {
             _configuration = configuration;
             _logger = logger;
+            _smsService = smsService;
         }
         public IMessageSenderStrategy CreateSenderObject(MessageType messageType)
         {
@@ -24,7 +26,7 @@ namespace EventsReminder.BusinessLogic.MessagesSending
                     sender = new EmailSender(_configuration, _logger);
                     break;
                 case MessageType.SMS:
-                    sender = new SmsSender(_configuration, _logger);
+                    sender = new SmsSender(_smsService, _logger);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Not implemented message type");

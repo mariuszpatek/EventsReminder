@@ -11,13 +11,13 @@ namespace EventsReminder.BusinessLogic.MessagesSending
 {
     public class SmsSender : IMessageSenderStrategy
     {
-        private readonly IConfiguration _configuration;
+        private readonly ISmsService _smsService;
         private readonly ILogger _logger;
 
-        public SmsSender(IConfiguration configuration, ILogger logger)
+        public SmsSender(ISmsService smsService, ILogger logger)
         {
             _logger = logger;
-            _configuration = configuration;
+            _smsService = smsService;
         }
 
         public bool SendMessage(Message message)
@@ -30,31 +30,13 @@ namespace EventsReminder.BusinessLogic.MessagesSending
 
             try
             {
-                var sms = new List<Sms>()
+                var result = _smsService.SendSms(message.Body, message.MessageTarget);
+                if (!result)
                 {
-                    new Sms
-                    {
-                        device_id = int.Parse(_configuration["Data:SmsGatway:DeviceId"]),
-                        message = message.Body, phone_number = message.MessageTarget
-                    }
-                };
-                var content = new StringContent(JsonConvert.SerializeObject(sms), Encoding.UTF8, "application/json");
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", _configuration["Data:SmsGatway:Authorization"]);
-                    var result = httpClient.PostAsync(_configuration["Data:SmsGatway:Endpoint"], content).Result;
-
-                    if (result.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        var test = result.Content.ReadAsStringAsync().Result;
-                        _logger.LogError($"Error during send SMS: {result.Content.ReadAsStringAsync().Result}");
-                        return false;
-                    }
+                    _logger.LogError($"Error during send SMS to: {message.MessageTarget}");
                 }
+
+                return result;
             }
             catch (Exception ex)
             {

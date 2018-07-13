@@ -22,13 +22,16 @@ namespace EventsReminder.BusinessLogic
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
         private readonly IMessageService _messageService;
+        private readonly ISmsService _smsService;
+
 
         public NotificationService(INotificationRepository notificationRepository, 
             IMapper mapper, 
             IPopulateService populateService, 
             IConfiguration configuration,
             ILoggerFactory loggerFactory,
-            IMessageService messageService)
+            IMessageService messageService,
+            ISmsService smsService)
         {
             _populateService = populateService;
             _notificationRepository = notificationRepository;
@@ -36,6 +39,7 @@ namespace EventsReminder.BusinessLogic
             _configuration = configuration;
             _logger = loggerFactory.CreateLogger("NotificationsService");
             _messageService = messageService;
+            _smsService = smsService;
         }
 
         public void AddNotification(NotificationViewModel notification)
@@ -133,7 +137,7 @@ namespace EventsReminder.BusinessLogic
 
         private DispatchNotificationResult SendNotificationsAndSetDispatchDate(IEnumerable<Notification> notifications)
         {
-            var factory = new SenderFactory(_configuration, _logger);
+            var factory = new SenderFactory(_configuration, _logger, _smsService);
             var respone = new DispatchNotificationResult();
 
             foreach (var notification in notifications)
